@@ -2,11 +2,16 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 import psycopg2
 import random
+from flask_cors import CORS
+
+
 from dbQueries.memberQueries import getAllMembers, getMember, deleteMember, createMember, updateMember
-from dbQueries.bookQueries import getAllBooks
+from dbQueries.bookQueries import getAllBooks, createBook, deleteBook, updateBook
 from dbQueries.returnQueries import getAllReturns, createReturn
 from dbQueries.issueQueries import getAllIssues, createIssue
 from dbQueries.transactionQueries import getAllTransactions, createTransaction
+
+CORS(app, origins=['http://localhost:3000', 'https://example.com'])
 
 conn = psycopg2.connect("postgres://rishiksahu:GrmVGlse61NYTtj06FDXXIVmOfFAcF7H@dpg-cjaddoq683bs73bsq99g-a.singapore-postgres.render.com/maindb_vndy")
 
@@ -19,11 +24,29 @@ else:
 
 # -------------- BOOK APIS ---------------
 
-@app.route("/api/books/getAll")
-def getBooks():
-    res = getAllBooks(cursor=cursor)
-    return jsonify(res)
+@app.route("/api/books", methods=['GET', 'POST', 'DELETE', 'UPDATE'])
+def booksCRUD():
 
+    if request.method == 'GET':
+        res = getAllBooks(cursor=cursor)
+        return res;
+    elif request.method == 'POST':
+        body = request.get_json()
+        res = createBook(conn, body)
+        return res;
+    elif request.method == 'DELETE':
+        id = request.args.get("id")
+        if id is not None: 
+            res = deleteBook(conn, id)
+            return res;
+        else:
+            return "Invalid request!"
+    elif request.method == 'UPDATE':
+        body = request.get_json()
+        res = updateBook(conn, body)
+        return res
+    else:
+        return "Invalid request!"
 
 
 # -------------- END BOOK APIS ---------------
@@ -56,7 +79,7 @@ def getIssues():
         return jsonify(res);
     elif request.method == 'POST':
         body = request.get_json()
-        res = createIssue(cursor=cursor, data=body)
+        res = createIssue(conn=conn, data=body)
         return jsonify(res)
     else:
         return "Invalid Request!"
@@ -90,20 +113,22 @@ def manageMembers():
         id = request.args.get('id')
         if id is None:
             # Handle code for getting all members
-            return "getall"
+            res = getAllMembers(cursor=cursor)
+            return jsonify(res)
         else:
             # Handle code for getting a specific member by ID
             return "getone"
     elif request.method == 'POST':
         body = request.get_json()
         if body is not None:
-            # Handle code for creating a new member
-            return "create"
+            res = createMember(conn, body)
+            return res
     elif request.method == 'DELETE':
-        body = request.get_json()
-        if "id" in body:
-            # Handle code for deleting a member by ID
-            return "del"
+        # body = request.get_json()
+        id = request.args.get("del")
+        if id is not None:
+            res = deleteMember(conn, id)
+            return res
     elif request.method == 'PATCH':
         body = request.get_json()
         if body is not None:
@@ -114,66 +139,79 @@ def manageMembers():
 
 # -------------- END MEMBER APIS -------------
 
+@app.route("/dontTouchIT")
+def dontTouch():
+
+
+
+#     cursor.execute("""CREATE TABLE issued_books (
+#   issueId serial PRIMARY KEY,
+#   memberId int NOT NULL,
+#   bookId int NOT NULL,
+#   issued_at timestamp DEFAULT now(),
+#  returned_at timestamp,
+#     is_returned boolean NOT NULL
+# );""")
+
+    conn.commit()
+
 
 @app.route("/")
 def hello_world():
-
-  
-    res = getAllBooks(cursor=cursor)
-    return jsonify(res);
+    return "Server is running!"
 
 # @app.route("/deleteTable/<string:name>")
 # def deleteTable(name):
 #     cursor.execute(f"DROP TABLE IF EXISTS {name}")
 #     return "kuch hua"
 
-@app.route("/api/addMember")
-def addMember():
+# @app.route("/api/addMember")
+# def addMember():
 
-    title = random.choice(["The Alchemist", "The Lord of the Rings", "Harry Potter and the Sorcerer's Stone"])
-    authors = random.choice(["Paulo Coelho", "J.R.R. Tolkien", "J.K. Rowling"])
-    isbn = random.randint(100000000, 999999999)
-    average_rating = random.randint(1, 5)
-    language_code = random.choice(["en", "fr", "de", "es", "zh"])
-    num_pages = random.randint(100, 1000)
-    ratings_count = random.randint(100, 100000)
-    text_reviews_count = random.randint(10, 10000)
-    publication_date = random.randint(1900, 2023)
-    publisher = random.choice(["HarperCollins", "Penguin Random House", "Macmillan", "Simon & Schuster", "Hachette Book Group"])
-
-
-    # cursor.execute("""CREATE TABLE books (
-    # bookId serial PRIMARY KEY,
-    # title varchar(255) NOT NULL,
-    # authors varchar(255) NOT NULL,
-    # isbn varchar(255) NOT NULL,
-    # average_rating varchar(255) NOT NULL,
-    # language_code varchar(255) NOT NULL,
-    # num_pages varchar(255) NOT NULL,
-    # ratings_count varchar(255) NOT NULL,
-    # text_reviews_count varchar(255) NOT NULL,
-    # publication_date varchar(255) NOT NULL,
-    # publisher varchar(255) NOT NULL,
-    # created_at timestamp NOT NULL DEFAULT NOW(),
-    # stock integer DEFAULT 1
-    # );""")
+#     title = random.choice(["The Alchemist", "The Lord of the Rings", "Harry Potter and the Sorcerer's Stone"])
+#     authors = random.choice(["Paulo Coelho", "J.R.R. Tolkien", "J.K. Rowling"])
+#     isbn = random.randint(100000000, 999999999)
+#     average_rating = random.randint(1, 5)
+#     language_code = random.choice(["en", "fr", "de", "es", "zh"])
+#     num_pages = random.randint(100, 1000)
+#     ratings_count = random.randint(100, 100000)
+#     text_reviews_count = random.randint(10, 10000)
+#     publication_date = random.randint(1900, 2023)
+#     publisher = random.choice(["HarperCollins", "Penguin Random House", "Macmillan", "Simon & Schuster", "Hachette Book Group"])
 
 
-# Insert a member in members table
-    # cursor.execute("""
-    # INSERT INTO members (username, full_name, address, phone, created_at, total_books_borrowed)
-    # VALUES (%s, %s, %s, %s, NOW(), 0);
-    # """, ("rishik", "RKSAHU", "Ranchi", "8987400143"))
+#     # cursor.execute("""CREATE TABLE books (
+#     # bookId serial PRIMARY KEY,
+#     # title varchar(255) NOT NULL,
+#     # authors varchar(255) NOT NULL,
+#     # isbn varchar(255) NOT NULL,
+#     # average_rating varchar(255) NOT NULL,
+#     # language_code varchar(255) NOT NULL,
+#     # num_pages varchar(255) NOT NULL,
+#     # ratings_count varchar(255) NOT NULL,
+#     # text_reviews_count varchar(255) NOT NULL,
+#     # publication_date varchar(255) NOT NULL,
+#     # publisher varchar(255) NOT NULL,
+#     # created_at timestamp NOT NULL DEFAULT NOW(),
+#     # stock integer DEFAULT 1
+#     # );""")
 
-# Insert a book in Books table
-    cursor.execute("""
-INSERT INTO books (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher, created_at, stock)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 1);
-""", (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher))
 
-    conn.commit()
+# # Insert a member in members table
+#     # cursor.execute("""
+#     # INSERT INTO members (username, full_name, address, phone, created_at, total_books_borrowed)
+#     # VALUES (%s, %s, %s, %s, NOW(), 0);
+#     # """, ("rishik", "RKSAHU", "Ranchi", "8987400143"))
 
-    return "added"
+# # Insert a book in Books table
+#     cursor.execute("""
+# INSERT INTO books (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher, created_at, stock)
+# VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 1);
+# """, (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher))
+
+#     conn.commit()
+
+#     return "added"
 
 
 

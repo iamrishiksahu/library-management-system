@@ -2,7 +2,9 @@ import React from 'react'
 
 const IssueBook = () => {
   return (
-    <div>IssueBook</div>
+    <div className="component-main-container">
+      
+    </div>
   )
 }
 

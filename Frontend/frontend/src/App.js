@@ -7,6 +7,8 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Dashboard from './components/mainComponents/Dashboard/Dashboard';
 import Books from './components/mainComponents/Books/Books';
 import IssueBook from './components/mainComponents/IssueBook/IssueBook';
+import Members from './components/mainComponents/Members/Members';
+import AddMember from './components/mainComponents/Members/AddMember';
 
 
 const App = () => {
@@ -38,6 +40,8 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Dashboard/>} />
             <Route path='/books' element={<Books/>} />
+            <Route path='/members' element={<Members/>} />
+            <Route path='/add-member' element={<AddMember/>} />
             <Route path='/issueBook' element={<IssueBook/>} />
 
           </Routes>

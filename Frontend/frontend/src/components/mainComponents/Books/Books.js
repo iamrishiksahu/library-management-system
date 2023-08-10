@@ -13,7 +13,8 @@ const Books = () => {
     alert("updateCalled")
   }
   return (
-    <div className="books-main-container">
+    <div className="component-main-container">
+      
 
       <Table headings={heads} records={recs} isAction={true} deleteAction={deleteAct} updateAction={updateAct} />
     </div>
