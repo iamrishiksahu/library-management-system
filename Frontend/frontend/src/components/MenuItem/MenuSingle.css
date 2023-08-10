@@ -1,0 +1,21 @@
+.item-container{
+    display: flex;
+    padding-left: 1rem;
+}
+
+.item-container:hover{
+    background-color: aqua;
+}
+.active-item-container{
+    display: flex;
+    background-color: blue;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.icon-container{
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}

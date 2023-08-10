@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+
+.app-main-container{
+  width: 100vw;
+  display: flex;
+}
+
+.sidebar{
+  color: white;
+  width: 15vw;
+  min-height: 91vh;
+  background-color: #232c33;
+}
+.mainbar{
+  width: 85vw;
+  min-height: 90vh;
+}
