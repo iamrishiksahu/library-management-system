@@ -8,6 +8,7 @@
 # );""")
 def getAllIssues(cursor):
     cursor.execute("""SELECT
+  i.issueId,
   m.full_name,
   m.phone,
   b.title,
@@ -17,7 +18,8 @@ FROM
 INNER JOIN
   issued_books i ON m.member_id = i.memberId
 INNER JOIN
-  books b ON i.bookId = b.bookId""")
+  books b ON i.bookId = b.bookId
+""")
     res = cursor.fetchall()
 
     return res

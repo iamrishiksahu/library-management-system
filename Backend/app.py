@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from dbQueries.memberQueries import getAllMembers, getMember, deleteMember, createMember, updateMember
 from dbQueries.bookQueries import getAllBooks, createBook, deleteBook, updateBook
-from dbQueries.returnQueries import getAllReturns, createReturn
+from dbQueries.returnQueries import getAllReturns, createReturn, getAllNotReturned
 from dbQueries.issueQueries import getAllIssues, createIssue
 from dbQueries.transactionQueries import getAllTransactions, createTransaction
 
@@ -53,7 +53,7 @@ def booksCRUD():
 
 # -------------- TRANSACTION APIS ---------------
 
-@app.route("/api/transctions", methods=['GET', 'POST'])
+@app.route("/api/transactions", methods=['GET', 'POST'])
 def getAlltrns():
     if request.method == 'GET':
         res = getAllTransactions(cursor=cursor)
@@ -61,7 +61,7 @@ def getAlltrns():
 
     elif request.method == 'POST':
         body = request.get_json()
-        res = createTransaction(cursor=cursor, data=body)
+        res = createTransaction(conn=conn, data=body)
         return jsonify(res)
 
     else:
@@ -97,10 +97,21 @@ def getReturns():
         return jsonify(res)
     elif request.method == 'POST':
         body = request.get_json();
-        res = createReturn(cursor=cursor, data=body)
+        res = createReturn(conn=conn, data=body)
         return jsonify(res)
     else:
         return "Invalid Request!"
+    
+@app.route("/api/not-returned", methods=['GET'])
+def notReturneds():
+    if request.method == 'GET':
+
+        res = getAllNotReturned(cursor=cursor)
+        return jsonify(res)
+ 
+    else:
+        return "Invalid Request!"
+
 
 
 # -------------- END RETURN APIS ---------------
@@ -141,7 +152,6 @@ def manageMembers():
 
 @app.route("/dontTouchIT")
 def dontTouch():
-
 
 
 #     cursor.execute("""CREATE TABLE issued_books (
