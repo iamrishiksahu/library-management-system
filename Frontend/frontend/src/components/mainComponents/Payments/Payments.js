@@ -12,18 +12,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Language']
+const columns = ['Transaction ID', 'Date' ,'Amount' , 'Book', 'Member']
 
 
-const Books = () => {
+const Payments = () => {
 
-  const [list, setlist] = useState([])
+  const [list, setList] = useState([])
   const navigate = useNavigate()
-  const getAllBooks = () => {
+  const getAllPayments = () => {
 
-    axios.get(`${API_BASE_URL}/books`).then((res) => {
+    axios.get(`${API_BASE_URL}/transactions`).then((res) => {
       console.log(res.data)
-      setlist(res.data)
+      setList(res.data)
     }).catch((err) => {
       console.log(err)
     })
@@ -37,15 +37,15 @@ const Books = () => {
   }
 
   useEffect(() => {
-    getAllBooks()
+    getAllPayments()
   }, [])
 
   return (
     <div className="component-main-container">
 
       <div className="component-title-bar">
-        <h2 className="section-title">Books</h2>
-        <Button variant='contained' size='small' onClick={() => navigate('/add-books')}>+ Add</Button>
+        <h2 className="section-title">All Payments</h2>
+        
       </div>
 
       <TableContainer component={Paper}>
@@ -69,20 +69,20 @@ const Books = () => {
               >
 
                 
-                <TableCell >{row.bookId}</TableCell>
+                <TableCell >{row.transaction_id}</TableCell>
+                <TableCell >{row.tnx_date}</TableCell>
+                <TableCell >{row.amount}</TableCell>
                 <TableCell >{row.title}</TableCell>
-                <TableCell >{row.authors}</TableCell>
-                <TableCell >{row.avg_rating}</TableCell>
-                <TableCell >{row.stock}</TableCell>
-                <TableCell >{row.lang}</TableCell>
+                <TableCell >{row.full_name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
 
+
     </div>
   )
 }
 
-export default Books
+export default Payments

@@ -12,18 +12,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Language']
+const columns = ['Issue ID', 'Book Title', 'Full Name', 'Returned At']
 
 
-const Books = () => {
+const Returned = () => {
 
-  const [list, setlist] = useState([])
+  const [list, setList] = useState([])
   const navigate = useNavigate()
   const getAllBooks = () => {
 
-    axios.get(`${API_BASE_URL}/books`).then((res) => {
+    axios.get(`${API_BASE_URL}/return`).then((res) => {
       console.log(res.data)
-      setlist(res.data)
+      setList(res.data)
     }).catch((err) => {
       console.log(err)
     })
@@ -44,8 +44,8 @@ const Books = () => {
     <div className="component-main-container">
 
       <div className="component-title-bar">
-        <h2 className="section-title">Books</h2>
-        <Button variant='contained' size='small' onClick={() => navigate('/add-books')}>+ Add</Button>
+        <h2 className="section-title">Returns</h2>
+        <Button variant='contained' size='small' onClick={() => navigate('/return-book')}>+ Add</Button>
       </div>
 
       <TableContainer component={Paper}>
@@ -69,20 +69,19 @@ const Books = () => {
               >
 
                 
-                <TableCell >{row.bookId}</TableCell>
+                <TableCell >{row.is}</TableCell>
                 <TableCell >{row.title}</TableCell>
-                <TableCell >{row.authors}</TableCell>
-                <TableCell >{row.avg_rating}</TableCell>
-                <TableCell >{row.stock}</TableCell>
-                <TableCell >{row.lang}</TableCell>
+                <TableCell >{row.full_name}</TableCell>
+                <TableCell >{row.returned_at}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
 
+
     </div>
   )
 }
 
-export default Books
+export default Returned

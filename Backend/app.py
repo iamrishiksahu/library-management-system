@@ -4,12 +4,14 @@ import psycopg2
 import random
 from flask_cors import CORS
 
-
+from dbQueries.dashboardQueries import getDashboardCounts
 from dbQueries.memberQueries import getAllMembers, getMember, deleteMember, createMember, updateMember
-from dbQueries.bookQueries import getAllBooks, createBook, deleteBook, updateBook
+from dbQueries.bookQueries import getAllBooks, createBook, deleteBook, updateBook, searchBookFromFrappe, searchBookByTitle, searchBookByAuthor
 from dbQueries.returnQueries import getAllReturns, createReturn, getAllNotReturned
 from dbQueries.issueQueries import getAllIssues, createIssue
 from dbQueries.transactionQueries import getAllTransactions, createTransaction
+
+import requests
 
 CORS(app, origins=['http://localhost:3000', 'https://example.com'])
 
@@ -22,7 +24,41 @@ if not conn.closed:
 else:
     print("Connection to PostgreSQL database failed!")
 
+# -------------- DASHBOARD APIS ---------------
+
+@app.route("/api/dashboard", methods=['GET'])
+def getDashboardData():
+
+    if request.method == 'GET':
+        res = getDashboardCounts(cursor=cursor)
+        return res;
+    else:
+        return "Invalid Request!"
+
+
+
+# -------------- END  DASHBOARD APIS ---------------
+
 # -------------- BOOK APIS ---------------
+
+@app.route("/api/books/search-book/all")
+def searchBookAll():
+        res = searchBookFromFrappe()
+        return res
+
+@app.route("/api/books/search-book/title")
+def searchBookByTitles():
+        a = request.args.get("value")
+        print(a)
+        res = searchBookByTitle(title=a)
+        return res
+
+@app.route("/api/books/search-book/author")
+def searchBookByAuth():
+        a = request.args.get("value")
+        res = searchBookByAuthor(author=a)
+        return res
+
 
 @app.route("/api/books", methods=['GET', 'POST', 'DELETE', 'UPDATE'])
 def booksCRUD():
@@ -150,10 +186,17 @@ def manageMembers():
 
 # -------------- END MEMBER APIS -------------
 
+@app.route("/tests", methods=['GET'])
+def test():
+    return "test"
+
+    
+
 @app.route("/dontTouchIT")
 def dontTouch():
 
-
+    cursor.execute("""SELECT * FROM transactions""")
+    return cursor.fetchall()
 #     cursor.execute("""CREATE TABLE issued_books (
 #   issueId serial PRIMARY KEY,
 #   memberId int NOT NULL,
@@ -169,63 +212,6 @@ def dontTouch():
 @app.route("/")
 def hello_world():
     return "Server is running!"
-
-# @app.route("/deleteTable/<string:name>")
-# def deleteTable(name):
-#     cursor.execute(f"DROP TABLE IF EXISTS {name}")
-#     return "kuch hua"
-
-# @app.route("/api/addMember")
-# def addMember():
-
-#     title = random.choice(["The Alchemist", "The Lord of the Rings", "Harry Potter and the Sorcerer's Stone"])
-#     authors = random.choice(["Paulo Coelho", "J.R.R. Tolkien", "J.K. Rowling"])
-#     isbn = random.randint(100000000, 999999999)
-#     average_rating = random.randint(1, 5)
-#     language_code = random.choice(["en", "fr", "de", "es", "zh"])
-#     num_pages = random.randint(100, 1000)
-#     ratings_count = random.randint(100, 100000)
-#     text_reviews_count = random.randint(10, 10000)
-#     publication_date = random.randint(1900, 2023)
-#     publisher = random.choice(["HarperCollins", "Penguin Random House", "Macmillan", "Simon & Schuster", "Hachette Book Group"])
-
-
-#     # cursor.execute("""CREATE TABLE books (
-#     # bookId serial PRIMARY KEY,
-#     # title varchar(255) NOT NULL,
-#     # authors varchar(255) NOT NULL,
-#     # isbn varchar(255) NOT NULL,
-#     # average_rating varchar(255) NOT NULL,
-#     # language_code varchar(255) NOT NULL,
-#     # num_pages varchar(255) NOT NULL,
-#     # ratings_count varchar(255) NOT NULL,
-#     # text_reviews_count varchar(255) NOT NULL,
-#     # publication_date varchar(255) NOT NULL,
-#     # publisher varchar(255) NOT NULL,
-#     # created_at timestamp NOT NULL DEFAULT NOW(),
-#     # stock integer DEFAULT 1
-#     # );""")
-
-
-# # Insert a member in members table
-#     # cursor.execute("""
-#     # INSERT INTO members (username, full_name, address, phone, created_at, total_books_borrowed)
-#     # VALUES (%s, %s, %s, %s, NOW(), 0);
-#     # """, ("rishik", "RKSAHU", "Ranchi", "8987400143"))
-
-# # Insert a book in Books table
-#     cursor.execute("""
-# INSERT INTO books (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher, created_at, stock)
-# VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), 1);
-# """, (title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher))
-
-#     conn.commit()
-
-#     return "added"
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

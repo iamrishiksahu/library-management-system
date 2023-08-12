@@ -4,11 +4,11 @@
 }
 
 .item-container:hover{
-    background-color: aqua;
+    background-color: #2d363d;
 }
 .active-item-container{
     display: flex;
-    background-color: blue;
+    background-color: black;
     align-items: center;
     padding-left: 0.5rem;
     padding-right: 0.5rem;

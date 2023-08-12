@@ -6,9 +6,13 @@ import MenuItemContainer from './components/MenuItem/MenuItemContainer';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Dashboard from './components/mainComponents/Dashboard/Dashboard';
 import Books from './components/mainComponents/Books/Books';
-import IssueBook from './components/mainComponents/IssueBook/IssueBook';
 import Members from './components/mainComponents/Members/Members';
 import AddMember from './components/mainComponents/Members/AddMember';
+import Returned from './components/mainComponents/Returned/Returned'
+import IssueBook from './components/mainComponents/IssueBook/IssueBook';
+import NotReturned from './components/mainComponents/NotReturned/NotReturned';
+import Payments from './components/mainComponents/Payments/Payments';
+import AddBooks from './components/mainComponents/Books/AddBooks';
 
 
 const App = () => {
@@ -41,6 +45,11 @@ const App = () => {
             <Route path='/' element={<Dashboard/>} />
             <Route path='/books' element={<Books/>} />
             <Route path='/members' element={<Members/>} />
+            <Route path='/issued' element={<IssueBook/>} />
+            <Route path='/returned' element={<Returned/>} />
+            <Route path='/notreturned' element={<NotReturned/>} />
+            <Route path='/payments' element={<Payments/>} />
+            <Route path='/add-books' element={<AddBooks/>} />
             <Route path='/add-member' element={<AddMember/>} />
             <Route path='/issueBook' element={<IssueBook/>} />
 

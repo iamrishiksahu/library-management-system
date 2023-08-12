@@ -1,0 +1,10 @@
+.search-options-container{
+    display: flex;
+    gap: 2rem;
+}
+
+.search-options-container .search-left, .search-right {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}

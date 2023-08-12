@@ -30,11 +30,10 @@ const TopAppBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Library Management System
           </Typography>
-          <Button color="inherit">{Date.now()}</Button>
+          <Button color="inherit">{format(new Date(), 'MMM dd, yyyy - hh:mm:a')}</Button>
         </Toolbar>
       </AppBar>
     </Box>
   )
 }
-
 export default TopAppBar

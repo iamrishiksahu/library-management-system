@@ -3,10 +3,11 @@
 
 def getAllTransactions(cursor):
     cursor.execute("""SELECT
+  t.transaction_id,
   t.tnx_date,
   m.full_name,
-  t.amount,
-  b.title
+  b.title,
+  t.amount
 FROM
   transactions t
 INNER JOIN
@@ -17,7 +18,18 @@ INNER JOIN
   books b ON i.bookId = b.bookId""")
     
     res = cursor.fetchall()
-    return res
+    trans = []
+    for row in res:
+        item = {
+            "transaction_id": row[0],
+            "tnx_date": row[1],
+            "full_name": row[2],
+            "title": row[3],
+            "amount": row[4],
+        }
+        trans.append(item)
+
+    return trans
 
 def createTransaction(conn, data):
     try:

@@ -7,12 +7,14 @@
 #     is_returned boolean NOT NULL
 # );""")
 def getAllIssues(cursor):
+    # cursor.execute("""SELECT * FROM issued_books""")
     cursor.execute("""SELECT
   i.issueId,
-  m.full_name,
-  m.phone,
   b.title,
-  b.authors
+  m.full_name,
+  i.issued_at,
+  i.is_returned,
+                   i.bookId
 FROM
   members m
 INNER JOIN
@@ -21,8 +23,19 @@ INNER JOIN
   books b ON i.bookId = b.bookId
 """)
     res = cursor.fetchall()
+    issued_books = []
+    for row in res:
+        item = {
+            "issueId": row[0],
+            "title": row[1],
+            "full_name": row[2],
+            "issued_at": row[3],
+            "is_returned": row[4],
+            "bookId": row[5]
+        }
+        issued_books.append(item)
 
-    return res
+    return issued_books
 
 def createIssue(conn, data):
     try:
@@ -32,6 +45,9 @@ def createIssue(conn, data):
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO issued_books (memberId, bookId, is_returned) VALUES (%s, %s, %s)""", (memberId, bookId, False))
 
+        conn.commit()
+
+        cursor.execute("""UPDATE books SET stock = stock -1 WHERE bookId = %s""", (bookId))
         conn.commit()
         return "SUCCESS"
     except Exception as e:

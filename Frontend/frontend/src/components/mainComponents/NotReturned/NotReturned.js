@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+// import Table from '../../CustomTable/Table'
 import axios from 'axios'
 import { API_BASE_URL } from '../../../utils/AppConstants'
 import { Button } from '@mui/material'
@@ -12,18 +13,18 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Language']
+const columns = ['Issue ID', 'Title', 'Issued To', 'Issued On']
 
 
-const Books = () => {
+const NotReturned = () => {
 
-  const [list, setlist] = useState([])
+  const [list, setList] = useState([])
   const navigate = useNavigate()
-  const getAllBooks = () => {
+  const getAllNotReturned = () => {
 
-    axios.get(`${API_BASE_URL}/books`).then((res) => {
+    axios.get(`${API_BASE_URL}/not-returned`).then((res) => {
       console.log(res.data)
-      setlist(res.data)
+      setList(res.data)
     }).catch((err) => {
       console.log(err)
     })
@@ -37,15 +38,15 @@ const Books = () => {
   }
 
   useEffect(() => {
-    getAllBooks()
+    getAllNotReturned()
   }, [])
 
   return (
     <div className="component-main-container">
 
       <div className="component-title-bar">
-        <h2 className="section-title">Books</h2>
-        <Button variant='contained' size='small' onClick={() => navigate('/add-books')}>+ Add</Button>
+        <h2 className="section-title">Not Returned</h2>
+        <Button variant='contained' size='small' onClick={() => navigate('/return-book')}>+ Add</Button>
       </div>
 
       <TableContainer component={Paper}>
@@ -69,20 +70,20 @@ const Books = () => {
               >
 
                 
-                <TableCell >{row.bookId}</TableCell>
+                <TableCell >{row.issueId}</TableCell>
                 <TableCell >{row.title}</TableCell>
-                <TableCell >{row.authors}</TableCell>
-                <TableCell >{row.avg_rating}</TableCell>
-                <TableCell >{row.stock}</TableCell>
-                <TableCell >{row.lang}</TableCell>
+                <TableCell >{row.full_name}</TableCell>
+                <TableCell >{row.issued_at}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
 
+
+
     </div>
   )
 }
 
-export default Books
+export default NotReturned

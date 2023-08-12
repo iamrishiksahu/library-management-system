@@ -87,3 +87,20 @@
   border-radius: 0.5rem;
   padding: 1rem;
 }
+
+
+.table-container > table> thead{
+  background-color: #232c33;
+  color: #ffffff;
+  
+}
+
+.table-container > table> thead > tr> th{
+  min-width: 10rem;
+  
+}
+
+.table-container >table> tbody > tr{
+  height: 2rem;
+  background-color: #61dafb;
+}
