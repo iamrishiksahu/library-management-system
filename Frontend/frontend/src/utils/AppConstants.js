@@ -8,7 +8,7 @@ export const SIDEBAR_MENU_ENDPOINTS = {
     'Payments' : "/payments"
 }
 
-// export const API_BASE_URL = 'http://127.0.0.1:5000/api'
-export const API_BASE_URL = 'https://lms-frappe-backend-68a979164201.herokuapp.com/api'
-// ?page=2&title=and
+export const API_BASE_URL = 'http://127.0.0.1:5000/api'
+// export const API_BASE_URL = 'https://backend-frappe-lms.el.r.appspot.com/api'
 export const FRAPPE_BOOKS_API = 'https://frappe.io/api/method/frappe-library'
+// ?page=2&title=and

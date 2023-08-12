@@ -60,14 +60,18 @@ const returnBookAction = ({issueId, bookId}) => {
 }
 
 
-const issueBookAction = ({member_id, book_id}) => {
+const issueBookAction = ({bookData, memberId}) => {
+    console.log(bookData);
     axios.post(`${API_BASE_URL}/issue`, {
-        "member_id": member_id,
-        "book_id": book_id,
+        "member_id": memberId,
+        "book_id": bookData.bookId,
         "issued_at": Date.now()
     }).then((res) => {
+
         if(res.data == 'SUCCESS'){
             alert("Book issued successfully!")
+        }else if(res.data == 'OVERDUE'){
+            alert("OVERDUE")
         }
     }).catch((err) => {
         console.log(err);
