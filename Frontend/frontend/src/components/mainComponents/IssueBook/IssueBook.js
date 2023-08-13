@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { returnBookAction } from '../../../actions/bookAction'
 
-
 const columns = ['Issue ID', 'Book Title', 'Member Name', 'Issued On']
 
 
@@ -19,12 +18,16 @@ const IssueBook = () => {
 
   const [list, setList] = useState([])
 
-  const handleBookReturn = async ({ issueId, bookId }) => {
-    const res = await returnBookAction({ issueId: issueId, bookId: bookId })
-    if (res == 'SUCCESS') {
-      // close dialog
-    }
+  const handleReturnClick = ({issueId, bookId}) => {
+
   }
+
+  // const handleBookReturn = async ({ issueId, bookId }) => {
+  //   const res = await returnBookAction({ issueId: issueId, bookId: bookId })
+  //   if (res == 'SUCCESS') {
+  //     // close dialog
+  //   }
+  // }
   const getAllIssues = () => {
 
     axios.get(`${API_BASE_URL}/issue`).then((res) => {
@@ -76,7 +79,7 @@ const IssueBook = () => {
                 <TableCell align='center' >
                   {row.is_returned ?
                     "Returned"
-                    : <Button onClick={() => handleBookReturn({ issueId: row.issueId, bookId: row.bookId })} >Return</Button>
+                    : <Button onClick={() => handleReturnClick({ issueId: row.issueId, bookId: row.bookId })} >Return</Button>
                   }
                 </TableCell>
               </TableRow>
@@ -85,13 +88,6 @@ const IssueBook = () => {
         </Table>
       </TableContainer>
 
-      <Dialog onClose={handleDialog} open={showDialog}>
-        <DialogTitle>Issue Book</DialogTitle>
-        <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
-          <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
-          <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
-        </DialogContent>
-      </Dialog>
 
 
 
