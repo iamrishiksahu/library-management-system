@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../../../utils/AppConstants'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,7 +15,7 @@ const columns = ['Transaction ID', 'Date' ,'Amount' , 'Book', 'Member']
 const Payments = () => {
 
   const [list, setList] = useState([])
-  const navigate = useNavigate()
+
   const getAllPayments = () => {
 
     axios.get(`${API_BASE_URL}/transactions`).then((res) => {
@@ -29,12 +26,7 @@ const Payments = () => {
     })
 
   }
-  const deleteAct = (item) => {
-    alert(item)
-  }
-  const updateAct = (idx) => {
-    alert("updateCalled")
-  }
+
 
   useEffect(() => {
     getAllPayments()

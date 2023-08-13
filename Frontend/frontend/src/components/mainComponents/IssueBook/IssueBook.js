@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../../../utils/AppConstants'
 import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,8 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography'
-import { issueBookAction, returnBookAction } from '../../../actions/bookAction'
+import { returnBookAction } from '../../../actions/bookAction'
 
 
 const columns = ['Issue ID', 'Book Title', 'Member Name', 'Issued On']
@@ -20,7 +18,13 @@ const columns = ['Issue ID', 'Book Title', 'Member Name', 'Issued On']
 const IssueBook = () => {
 
   const [list, setList] = useState([])
-  const navigate = useNavigate()
+
+  const handleBookReturn = async ({ issueId, bookId }) => {
+    const res = await returnBookAction({ issueId: issueId, bookId: bookId })
+    if (res == 'SUCCESS') {
+      // close dialog
+    }
+  }
   const getAllIssues = () => {
 
     axios.get(`${API_BASE_URL}/issue`).then((res) => {
@@ -30,12 +34,6 @@ const IssueBook = () => {
       console.log(err)
     })
 
-  }
-  const deleteAct = (item) => {
-    alert(item)
-  }
-  const updateAct = (idx) => {
-    issueBookAction({ member_id: "19", book_id: "2" });
   }
 
   useEffect(() => {
@@ -78,7 +76,7 @@ const IssueBook = () => {
                 <TableCell align='center' >
                   {row.is_returned ?
                     "Returned"
-                    : <Button onClick={() => returnBookAction({ issueId: row.issueId, bookId: row.bookId })} >Return</Button>
+                    : <Button onClick={() => handleBookReturn({ issueId: row.issueId, bookId: row.bookId })} >Return</Button>
                   }
                 </TableCell>
               </TableRow>
@@ -86,6 +84,14 @@ const IssueBook = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Dialog onClose={handleDialog} open={showDialog}>
+        <DialogTitle>Issue Book</DialogTitle>
+        <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+          <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
+          <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
+        </DialogContent>
+      </Dialog>
 
 
 

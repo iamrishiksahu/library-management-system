@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../../../utils/AppConstants'
-import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,11 +12,9 @@ import Paper from '@mui/material/Paper';
 
 const columns = ['Issue ID', 'Book Title', 'Full Name', 'Returned At']
 
-
 const Returned = () => {
 
   const [list, setList] = useState([])
-  const navigate = useNavigate()
   const getAllBooks = () => {
 
     axios.get(`${API_BASE_URL}/return`).then((res) => {
@@ -29,13 +25,7 @@ const Returned = () => {
     })
 
   }
-  const deleteAct = (item) => {
-    alert(item)
-  }
-  const updateAct = (idx) => {
-    alert("updateCalled")
-  }
-
+  
   useEffect(() => {
     getAllBooks()
   }, [])
