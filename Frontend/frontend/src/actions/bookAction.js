@@ -36,7 +36,7 @@ const addBookAction = ({bookData, qty}) => {
         qty: qty,
 
     }).then((res) => {
-        if(res.data == 'SUCCESS'){
+        if(res.data === 'SUCCESS'){
             alert("Book added successfully!")
         }
     }).catch((err) => {
@@ -51,7 +51,7 @@ const returnBookAction = ({issueId, bookId}) => {
         "issueId": issueId.toString(),
         "bookId": bookId.toString(),
     }).then((res) => {
-        if(res.data == 'SUCCESS'){
+        if(res.data === 'SUCCESS'){
             alert("Book returned successfully!")
         }
     }).catch((err) => {
@@ -68,9 +68,9 @@ const issueBookAction = ({bookData, memberId}) => {
         "issued_at": Date.now()
     }).then((res) => {
 
-        if(res.data == 'SUCCESS'){
+        if(res.data === 'SUCCESS'){
             alert("Book issued successfully!")
-        }else if(res.data == 'OVERDUE'){
+        }else if(res.data === 'OVERDUE'){
             alert("OVERDUE")
         }
     }).catch((err) => {

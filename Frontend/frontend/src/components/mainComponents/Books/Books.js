@@ -51,12 +51,12 @@ const Books = () => {
     })
 
   }
-  const deleteAct = (item) => {
-    alert(item)
-  }
-  const updateAct = (idx) => {
-    alert("updateCalled")
-  }
+  // const deleteAct = (item) => {
+  //   alert(item)
+  // }
+  // const updateAct = (idx) => {
+  //   alert("updateCalled")
+  // }
 
   useEffect(() => {
     getAllBooks()
