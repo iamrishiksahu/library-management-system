@@ -1,12 +1,13 @@
 import axios, { AxiosError } from "axios"
 import { API_BASE_URL } from "../utils/AppConstants"
+import { useNavigate } from "react-router-dom"
 
 const qtyUpdateAction = async ({ qty, bookId }) => {
 
     try {
 
         const res = await axios.patch(`${API_BASE_URL}/books`, {
-            "bookId" : bookId,
+            "bookId": bookId,
             "qty": qty
         })
         if (res.data === 'SUCCESS') {
@@ -40,53 +41,55 @@ const deleteBookAction = async ({ bookId }) => {
     }
 }
 
-const addBookAction = ({ bookData, qty }) => {
+const addBookAction = async ({ bookData, qty }) => {
+    try {
+        const res = await axios.post(`${API_BASE_URL}/books`, {
+            bookID: bookData.bookID,
+            title: bookData.title,
+            authors: bookData.authors,
+            average_rating: bookData.average_rating,
+            isbn: bookData.isbn,
+            language_code: bookData.language_code,
+            publication_date: bookData.publication_date,
+            publisher: bookData.publisher,
+            text_reviews_count: bookData.text_reviews_count,
+            ratings_count: bookData.ratings_count,
+            isbn13: bookData.isbn13,
+            pages: bookData["  num_pages"],
+            qty: qty,
 
-    console.log(bookData.title, qty);
+        })
 
-    axios.post(`${API_BASE_URL}/books`, {
-        bookID: bookData.bookID,
-        title: bookData.title,
-        authors: bookData.authors,
-        average_rating: bookData.average_rating,
-        isbn: bookData.isbn,
-        language_code: bookData.language_code,
-        publication_date: bookData.publication_date,
-        publisher: bookData.publisher,
-        text_reviews_count: bookData.text_reviews_count,
-        ratings_count: bookData.ratings_count,
-        isbn13: bookData.isbn13,
-        pages: bookData["  num_pages"],
-        qty: qty,
-
-    }).then((res) => {
-        if (res.data === 'SUCCESS') {
+        if (res.data == 'SUCCESS') {
             alert("Book added successfully!")
         }
-    }).catch((err) => {
+        console.log(res.data);
+        return res.data
+    }
+    catch (err) {
         console.log(err);
-    })
-
+    }
 }
 
-const returnBookAction = ({ issueId, bookId }) => {
+const returnBookAction = async ({ issueId, bookId }) => {
 
-    axios.post(`${API_BASE_URL}/return`, {
-        "issueId": issueId.toString(),
-        "bookId": bookId.toString(),
-    }).then((res) => {
-        if (res.data === 'SUCCESS') {
-            alert("Book returned successfully!")
-        }
-    }).catch((err) => {
+    try {
+        const res = await axios.post(`${API_BASE_URL}/return`, {
+            "issueId": issueId.toString(),
+            "bookId": bookId.toString(),
+        })
+
+        return res.data
+    }
+    catch (err) {
         console.log(err);
-    })
+    }
 }
 
 
-const issueBookAction = ({ bookData, memberId }) => {
+const issueBookAction = async ({ bookData, memberId }) => {
     console.log(bookData);
-    axios.post(`${API_BASE_URL}/issue`, {
+    await axios.post(`${API_BASE_URL}/issue`, {
         "member_id": memberId,
         "book_id": bookData.bookId,
         "issued_at": Date.now()

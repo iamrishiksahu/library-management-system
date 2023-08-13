@@ -60,8 +60,8 @@ def createIssue(conn, data):
 
         conn.commit()
 
-        # cursor.execute("""UPDATE books SET stock = stock -1 WHERE bookId = %s""", (bookId))
-        # conn.commit()
+        cursor.execute(f"""UPDATE books SET stock = stock -1 WHERE bookId = {bookId}""")
+        conn.commit()
         return "SUCCESS"
     except Exception as e:
         print("An error occurred:", e)

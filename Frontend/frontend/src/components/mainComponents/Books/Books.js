@@ -15,8 +15,9 @@ import Paper from '@mui/material/Paper';
 import { deleteBookAction, issueBookAction, qtyUpdateAction } from '../../../actions/bookAction'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import LinearProgress from '@mui/material/LinearProgress'
 
-const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Publisher']
+const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Publisher', 'ISBN']
 
 let rowData = {}
 let dialogAction = ''
@@ -24,6 +25,7 @@ let dialogAction = ''
 const Books = () => {
 
   const [list, setlist] = useState([])
+  const [isLoading, setisLoading] = useState(true)
   const [showDialog, setShowDialog] = useState(false)
   const navigate = useNavigate()
 
@@ -60,26 +62,22 @@ const Books = () => {
 
     rowData = data;
     dialogAction = action
-    console.log("rd", rowData)
+    getAllBooks()
     setShowDialog(true)
 
   }
   const getAllBooks = () => {
 
     axios.get(`${API_BASE_URL}/books`).then((res) => {
-      console.log(res.data)
+
       setlist(res.data)
     }).catch((err) => {
       console.log(err)
+    }).finally(() => {
+      setisLoading(false)
     })
 
   }
-  // const deleteAct = (item) => {
-  //   alert(item)
-  // }
-  // const updateAct = (idx) => {
-  //   alert("updateCalled")
-  // }
 
   useEffect(() => {
     getAllBooks()
@@ -93,50 +91,56 @@ const Books = () => {
         <Button variant='contained' size='small' onClick={() => navigate('/add-books')}>+ Add</Button>
       </div>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {columns.map((item, i) => {
-                return (
-                  <TableCell sx={{ fontWeight: '600' }}>{item}</TableCell>
-                )
-              })}
-              <TableCell align='center' width='200px' sx={{ fontWeight: '600' }}>Actions</TableCell>
+      {isLoading ?
+        <LinearProgress />
+        :
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                {columns.map((item, i) => {
+                  return (
+                    <TableCell sx={{ fontWeight: '600' }}>{item}</TableCell>
+                  )
+                })}
+                <TableCell align='center' width='200px' sx={{ fontWeight: '600' }}>Actions</TableCell>
 
 
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {list.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-
-
-                <TableCell >{row.bookId}</TableCell>
-                <TableCell >{row.title}</TableCell>
-                <TableCell >{row.authors}</TableCell>
-                <TableCell ><Rating name="read-only" value={parseFloat(row.avg_rating)} readOnly precision={0.2} /></TableCell>
-                <TableCell >{row.stock}</TableCell>
-                <TableCell >{row.publisher}</TableCell>
-                <TableCell align='center' >
-
-                  <Button onClick={() => handleIssueClick({ data: row, action: 'ISSUE' })} >Issue</Button>
-
-                  <IconButton onClick={() => handleIssueClick({ data: row, action: 'DELETE' })} >
-                    <DeleteIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleIssueClick({ data: row, action: 'UPDATE' })}>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {list.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+
+
+                  <TableCell sx={{width: '90px'}} >{row.bookId}</TableCell>
+                  <TableCell >{row.title}</TableCell>
+                  <TableCell >{row.authors}</TableCell>
+                  <TableCell ><Rating name="read-only" value={parseFloat(row.avg_rating)} readOnly precision={0.2} /></TableCell>
+                  <TableCell >{row.stock}</TableCell>
+                  <TableCell >{row.publisher}</TableCell>
+                  <TableCell >{row.isbn}</TableCell>
+                  <TableCell align='center' >
+
+                    <Button onClick={() => handleIssueClick({ data: row, action: 'ISSUE' })} >Issue</Button>
+
+                    <IconButton onClick={() => handleIssueClick({ data: row, action: 'DELETE' })} >
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleIssueClick({ data: row, action: 'UPDATE' })}>
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      }
 
       <Dialog onClose={handleDialog} open={showDialog}>
 
@@ -146,7 +150,7 @@ const Books = () => {
             <DialogTitle>Issue Book</DialogTitle>
             <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
               <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
-              <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
+              <Button onClick={async () => {await issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value }); setShowDialog(false)}} variant='contained' >Issue</Button>
             </DialogContent>
           </>
           : dialogAction === 'DELETE' ?
@@ -178,6 +182,9 @@ const Books = () => {
       </Dialog>
 
     </div>
+
+
+
   )
 }
 

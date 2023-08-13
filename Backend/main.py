@@ -181,8 +181,8 @@ def manageMembers():
     elif request.method == 'PATCH':
         body = request.get_json()
         if body is not None:
-            # Handle code for updating a member
-            return "upd"
+            res = updateMember(conn, body)
+            return res
     
     return "Invalid Request!"
 

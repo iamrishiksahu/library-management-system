@@ -37,11 +37,32 @@ def getMember(cursor, id):
     cursor.execute(f"Select * FROM members WHERE member_id={id}")
     results = cursor.fetchOne()
     return results
-def updateMember(cursor, data):
-    return data;
+def updateMember(conn, data):
+
+    try:
+
+        id = data["memberId"]
+        full_name = data["full_name"]
+        phone = data["phone"]
+        address = data["address"]
+
+        cursor = conn.cursor();
+        cursor.execute("""UPDATE members SET full_name = %s, phone = %s, address= %s WHERE member_id = %s """, (full_name, phone, address, id))
+
+        conn.commit()
+
+        return "SUCCESS"
+
+
+    except Exception as e:
+        print("An error occurred:", e)
+        conn.rollback()
+        return "FAILURE"
+
+
 
 def getAllMembers(cursor):
-    cursor.execute(f"SELECT * FROM members")
+    cursor.execute(f"SELECT * FROM members ORDER BY full_name")
     results = cursor.fetchall()
     members = []
     for row in results:

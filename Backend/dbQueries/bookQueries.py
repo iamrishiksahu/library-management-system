@@ -112,6 +112,7 @@ def createBook(conn, data):
                        ON CONFLICT (bookId) DO UPDATE SET stock = books.stock + EXCLUDED.stock""", (bookId, title, authors, isbn, average_rating, language_code, num_pages, ratings_count, text_reviews_count, publication_date, publisher, stock))
 
         conn.commit()
+        
         return "SUCCESS"
     except Exception as e:
         print("An error occurred:", e)

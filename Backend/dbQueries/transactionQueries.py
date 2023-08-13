@@ -11,7 +11,7 @@ def getAllTransactions(cursor):
 FROM
   transactions t
 INNER JOIN
-  issued_books i ON t.transaction_id = i.issueId
+  issued_books i ON t.issueId = CAST(i.issueid  AS VARCHAR(200))
 INNER JOIN
   members m ON i.memberId = m.member_id
 INNER JOIN
@@ -28,14 +28,16 @@ INNER JOIN
             "amount": row[4],
         }
         trans.append(item)
+        print(item)
 
     return trans
 
 def createTransaction(conn, data):
     try:
-
+        id = data["issueId"]
+        amount = data["amount"]
         cursor = conn.cursor()
-        cursor.execute("""INSERT INTO transactions (issueId, amount) VALUES (%s, %s)""", (2, 100))
+        cursor.execute(f"""INSERT INTO transactions (issueId, amount) VALUES ({id}, {amount})""")
         conn.commit()
 
         return "SUCCESS"

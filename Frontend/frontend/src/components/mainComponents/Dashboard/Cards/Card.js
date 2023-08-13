@@ -1,18 +1,15 @@
 import React from 'react'
 import "./Card.css"
 
-const Card = ({ title, count, icon, bgColor }) => {
+const Card = ({ title, count, bgColor }) => {
   return (
     <div style={{ backgroundColor: bgColor }} className="card-container">
-      <div className="left">
-        <p className='card-title'>{title}</p>
-        <p className="card-count">
-          {count}
-        </p>
-      </div>
-      <div className="right">
-        <icon/>
-      </div>
+
+      <p className='card-title'>{title}</p>
+      <p className="card-count">
+        {count}
+      </p>
+
 
     </div>
   )
