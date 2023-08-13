@@ -42,7 +42,7 @@ const App = () => {
         <div className="mainbar">
 
           <Routes>
-            <Route path='/' element={<Dashboard/>} />
+            <Route path='/' element={<Dashboard setActive={setActiveSideMenu}/>} />
             <Route path='/books' element={<Books/>} />
             <Route path='/members' element={<Members/>} />
             <Route path='/issued' element={<IssueBook/>} />

@@ -13,7 +13,9 @@ from dbQueries.transactionQueries import getAllTransactions, createTransaction
 
 import requests
 
-CORS(app, origins=['http://localhost:3000', 'https://example.com'])
+# ['http://localhost:3000', 'https://frappe-lms-frontend.vercel.app/', 'https://lms-frontend-frappe.onrender.com/']
+
+CORS(app, origins='*')
 
 conn = psycopg2.connect("postgres://rishiksahu:GrmVGlse61NYTtj06FDXXIVmOfFAcF7H@dpg-cjaddoq683bs73bsq99g-a.singapore-postgres.render.com/maindb_vndy")
 
@@ -60,7 +62,7 @@ def searchBookByAuth():
         return res
 
 
-@app.route("/api/books", methods=['GET', 'POST', 'DELETE', 'UPDATE'])
+@app.route("/api/books", methods=['GET', 'POST', 'DELETE', 'PATCH'])
 def booksCRUD():
 
     if request.method == 'GET':
@@ -77,7 +79,7 @@ def booksCRUD():
             return res;
         else:
             return "Invalid request!"
-    elif request.method == 'UPDATE':
+    elif request.method == 'PATCH':
         body = request.get_json()
         res = updateBook(conn, body)
         return res

@@ -1,22 +1,46 @@
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { API_BASE_URL } from "../utils/AppConstants"
 
-const addBookAction = ({bookData, qty}) => {
+const qtyUpdateAction = async ({ qty, bookId }) => {
 
-    // bookID
-    // title
-// num_pages
-// authors
-// average_rating
-// isbn
+    try {
 
-// isbn13
+        const res = await axios.patch(`${API_BASE_URL}/books`, {
+            "bookId" : bookId,
+            "qty": qty
+        })
+        if (res.data === 'SUCCESS') {
+            alert('Quantity Updated Successfully!')
+            return res.data
+        } else {
+            alert(res.data)
+        }
 
-// language_code
-// publication_date
-// publisher
-// ratings_count
-// text_reviews_count
+
+    } catch (err) {
+        console.log(err)
+    }
+
+}
+
+const deleteBookAction = async ({ bookId }) => {
+
+    try {
+
+        const res = await axios.delete(`${API_BASE_URL}/books?id=${bookId}`)
+        if (res.data === 'SUCCESS') {
+            alert('Book Deleted Successfully!')
+            return res.data
+        } else {
+            alert(res.data)
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const addBookAction = ({ bookData, qty }) => {
 
     console.log(bookData.title, qty);
 
@@ -36,22 +60,22 @@ const addBookAction = ({bookData, qty}) => {
         qty: qty,
 
     }).then((res) => {
-        if(res.data === 'SUCCESS'){
+        if (res.data === 'SUCCESS') {
             alert("Book added successfully!")
         }
     }).catch((err) => {
         console.log(err);
     })
-    
+
 }
 
-const returnBookAction = ({issueId, bookId}) => {
-    
+const returnBookAction = ({ issueId, bookId }) => {
+
     axios.post(`${API_BASE_URL}/return`, {
         "issueId": issueId.toString(),
         "bookId": bookId.toString(),
     }).then((res) => {
-        if(res.data === 'SUCCESS'){
+        if (res.data === 'SUCCESS') {
             alert("Book returned successfully!")
         }
     }).catch((err) => {
@@ -60,7 +84,7 @@ const returnBookAction = ({issueId, bookId}) => {
 }
 
 
-const issueBookAction = ({bookData, memberId}) => {
+const issueBookAction = ({ bookData, memberId }) => {
     console.log(bookData);
     axios.post(`${API_BASE_URL}/issue`, {
         "member_id": memberId,
@@ -68,9 +92,9 @@ const issueBookAction = ({bookData, memberId}) => {
         "issued_at": Date.now()
     }).then((res) => {
 
-        if(res.data === 'SUCCESS'){
+        if (res.data === 'SUCCESS') {
             alert("Book issued successfully!")
-        }else if(res.data === 'OVERDUE'){
+        } else if (res.data === 'OVERDUE') {
             alert("OVERDUE")
         }
     }).catch((err) => {
@@ -78,4 +102,4 @@ const issueBookAction = ({bookData, memberId}) => {
     })
 }
 
-export {issueBookAction, returnBookAction, addBookAction}
+export { issueBookAction, returnBookAction, addBookAction, deleteBookAction, qtyUpdateAction }

@@ -46,7 +46,7 @@ const NotReturned = () => {
 
       <div className="component-title-bar">
         <h2 className="section-title">Not Returned</h2>
-        <Button variant='contained' size='small' onClick={() => navigate('/return-book')}>+ Add</Button>
+       
       </div>
 
       <TableContainer component={Paper}>

@@ -1,21 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../../../utils/AppConstants'
-import { Button, TextField } from '@mui/material'
+import { Button, IconButton, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import Table from '@mui/material/Table';
+import Rating from '@mui/material/Rating';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {Dialog, DialogTitle, DialogContent} from '@mui/material'
+import { Dialog, DialogTitle, DialogContent } from '@mui/material'
 import Paper from '@mui/material/Paper';
-import { issueBookAction } from '../../../actions/bookAction'
+import { deleteBookAction, issueBookAction, qtyUpdateAction } from '../../../actions/bookAction'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Language', 'Action']
+const columns = ['Book ID', 'Title', 'Authors', 'Rating', 'Stock', 'Publisher']
 
 let rowData = {}
+let dialogAction = ''
 
 const Books = () => {
 
@@ -24,21 +28,40 @@ const Books = () => {
   const navigate = useNavigate()
 
   const memberIdRef = useRef()
+  const cnfBookIdRef = useRef()
+  const newQtyRef = useRef()
 
   const handleDialog = () => {
     setShowDialog(!showDialog)
   }
 
-  const handleIssueClick = ({ data }) => {
+  const handleCnfBookDelete = async ({ data }) => {
+    if (cnfBookIdRef.current.value == data.bookId) {
+      const res = await deleteBookAction({ bookId: data.bookId })
+      if (res == 'SUCCESS') {
+        setShowDialog(false)
+        getAllBooks()
+      }
+    }
+    else alert('Book ID not matched!')
+  }
+
+  const handleQtyUpdate = async ({ rowData }) => {
+
+    const res = await qtyUpdateAction({ qty: newQtyRef.current.value, bookId: rowData.bookId })
+    if (res == 'SUCCESS') {
+      setShowDialog(false)
+      getAllBooks()
+
+    }
+  }
+
+  const handleIssueClick = ({ data, action }) => {
 
     rowData = data;
+    dialogAction = action
     console.log("rd", rowData)
     setShowDialog(true)
-
-    // axios.get(`${API_BASE_URL}/issue`, {
-    //   member_id: rowData.memberId,
-    //   book_id: rowData.bookId
-    // })
 
   }
   const getAllBooks = () => {
@@ -79,6 +102,7 @@ const Books = () => {
                   <TableCell sx={{ fontWeight: '600' }}>{item}</TableCell>
                 )
               })}
+              <TableCell align='center' width='200px' sx={{ fontWeight: '600' }}>Actions</TableCell>
 
 
             </TableRow>
@@ -94,14 +118,19 @@ const Books = () => {
                 <TableCell >{row.bookId}</TableCell>
                 <TableCell >{row.title}</TableCell>
                 <TableCell >{row.authors}</TableCell>
-                <TableCell >{row.avg_rating}</TableCell>
+                <TableCell ><Rating name="read-only" value={parseFloat(row.avg_rating)} readOnly precision={0.2} /></TableCell>
                 <TableCell >{row.stock}</TableCell>
-                <TableCell >{row.lang}</TableCell>
+                <TableCell >{row.publisher}</TableCell>
                 <TableCell align='center' >
-                  {row.is_returned ?
-                    "Returned"
-                    : <Button onClick={() => handleIssueClick({ data: row })} >Issue</Button>
-                  }
+
+                  <Button onClick={() => handleIssueClick({ data: row, action: 'ISSUE' })} >Issue</Button>
+
+                  <IconButton onClick={() => handleIssueClick({ data: row, action: 'DELETE' })} >
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleIssueClick({ data: row, action: 'UPDATE' })}>
+                    <EditIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -110,11 +139,42 @@ const Books = () => {
       </TableContainer>
 
       <Dialog onClose={handleDialog} open={showDialog}>
-        <DialogTitle>Issue Book</DialogTitle>
-        <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
-          <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
-          <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
-        </DialogContent>
+
+        {dialogAction === 'ISSUE' ?
+          <>
+
+            <DialogTitle>Issue Book</DialogTitle>
+            <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+              <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
+              <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
+            </DialogContent>
+          </>
+          : dialogAction === 'DELETE' ?
+            <>
+              <DialogTitle>Delete Book</DialogTitle>
+              <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+                <TextField variant='outlined' size='small' placeholder='Confirm Book ID' type='number' inputRef={cnfBookIdRef} />
+                <Button
+                  onClick={() => handleCnfBookDelete({ data: rowData })} variant='contained' >Confirm Delete</Button>
+              </DialogContent>
+            </>
+            : dialogAction === 'UPDATE' ?
+              <>
+                <DialogTitle>Update Quantity</DialogTitle>
+                <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+                  <TextField variant='outlined' size='small' placeholder='New quantity' type='number' inputRef={newQtyRef} />
+                  <Button
+                    onClick={() => {
+                      handleQtyUpdate({ rowData: rowData })
+                    }
+                    } variant='contained' >Update</Button>
+                </DialogContent>
+              </>
+              : <></>
+
+        }
+
+
       </Dialog>
 
     </div>

@@ -44,8 +44,7 @@ const Returned = () => {
     <div className="component-main-container">
 
       <div className="component-title-bar">
-        <h2 className="section-title">Returns</h2>
-        <Button variant='contained' size='small' onClick={() => navigate('/return-book')}>+ Add</Button>
+        <h2 className="section-title">Returned Books</h2>
       </div>
 
       <TableContainer component={Paper}>
@@ -69,7 +68,7 @@ const Returned = () => {
               >
 
                 
-                <TableCell >{row.is}</TableCell>
+                <TableCell >{row.issueId}</TableCell>
                 <TableCell >{row.title}</TableCell>
                 <TableCell >{row.full_name}</TableCell>
                 <TableCell >{row.returned_at}</TableCell>

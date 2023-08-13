@@ -21,6 +21,9 @@ INNER JOIN
   issued_books i ON m.member_id = i.memberId
 INNER JOIN
   books b ON i.bookId = b.bookId
+ORDER BY
+  i.is_returned ASC,
+  i.issued_at DESC
 """)
     res = cursor.fetchall()
     issued_books = []

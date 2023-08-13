@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography'
 import { issueBookAction, returnBookAction } from '../../../actions/bookAction'
 
 
@@ -34,8 +35,8 @@ const IssueBook = () => {
     alert(item)
   }
   const updateAct = (idx) => {
-    issueBookAction({member_id: "19", book_id: "2" });
-  } 
+    issueBookAction({ member_id: "19", book_id: "2" });
+  }
 
   useEffect(() => {
     getAllIssues()
@@ -46,21 +47,20 @@ const IssueBook = () => {
 
       <div className="component-title-bar">
         <h2 className="section-title">Issued Books</h2>
-        <Button variant='contained' size='small' onClick={() => updateAct()}>+ Add</Button>
       </div>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-            {columns.map((item, i) => {
-                  return (
-                    <TableCell sx={{fontWeight: '600'}}>{item}</TableCell>
-                  )
-                })}
-                <TableCell align='center'>Actions</TableCell>
+              {columns.map((item, i) => {
+                return (
+                  <TableCell sx={{ fontWeight: '600' }}>{item}</TableCell>
+                )
+              })}
+              <TableCell align='center'>Actions</TableCell>
 
-         
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,17 +70,17 @@ const IssueBook = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
 
-                
+
                 <TableCell >{row.issueId}</TableCell>
                 <TableCell >{row.title}</TableCell>
                 <TableCell >{row.full_name}</TableCell>
                 <TableCell >{row.issued_at}</TableCell>
                 <TableCell align='center' >
-                  {row.is_returned? 
-                    "Returned"  
-                  :<Button onClick={() => returnBookAction({issueId: row.issueId, bookId: row.bookId})} >Return</Button>
+                  {row.is_returned ?
+                    "Returned"
+                    : <Button onClick={() => returnBookAction({ issueId: row.issueId, bookId: row.bookId })} >Return</Button>
                   }
-                  </TableCell>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

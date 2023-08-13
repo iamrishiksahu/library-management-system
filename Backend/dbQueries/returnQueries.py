@@ -13,9 +13,6 @@ INNER JOIN
                    WHERE
   i.is_returned = TRUE""")
 
-    # cursor.execute("""SELECT * FROM issued_books""")
-
-
     res = cursor.fetchall()
     returned_books = []
     for row in res:
@@ -25,6 +22,7 @@ INNER JOIN
             "full_name": row[2],
             "returned_at": row[3],
         }
+        print(item)
         returned_books.append(item)
 
     return returned_books
@@ -34,16 +32,17 @@ def createReturn(conn, data):
     try:
 
         cursor = conn.cursor()
-        id = data["issueId"]
-        bookId = data["bookId"]
-        cursor.execute("""UPDATE issued_books
-    SET is_returned = TRUE
-    WHERE issueId = %s""", id)
+        id = str(data["issueId"])
+        bookId = str(data["bookId"])
+        print(id, bookId)
+        cursor.execute(f"""UPDATE issued_books
+    SET is_returned = TRUE , returned_at = NOW() 
+    WHERE issueId = {id}""")
         
         conn.commit()
-        cursor.execute("""UPDATE books
+        cursor.execute(f"""UPDATE books
     SET stock = stock + 1
-    WHERE bookId = %s""", bookId)
+    WHERE bookId = {bookId}""")
         conn.commit()
 
         return "SUCCESS"
@@ -57,7 +56,7 @@ def getAllNotReturned(cursor):
   i.issueId,
   b.title,
   m.full_name,
-   i.returned_at
+   i.issued_at
 FROM
   members m
 INNER JOIN

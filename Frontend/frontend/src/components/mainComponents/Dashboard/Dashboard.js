@@ -5,12 +5,11 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../../utils/AppConstants';
-const Dashboard = () => {
-  const books = 1012;
-  const members = 202;
-  const issued = 100;
-  const pendingReturn = 10;
-  const income = 11000;
+import PeopleIcon from '@mui/icons-material/People';
+
+
+
+const Dashboard = ({ setActive }) => {
 
   const [dashData, setDashData] = useState({})
 
@@ -18,21 +17,21 @@ const Dashboard = () => {
 
   const fetchDashboardData = () => {
     axios.get(`${API_BASE_URL}/dashboard`)
-    .then((res) => {
-      const data = res.data
-      console.log(data)
-      const obj = {
-        books: data.books[0][0],
-        members: data.members[0][0],
-        issued: data.issued[0][0],
-        pendingReturn: data.not_returned[0][0],
-        income: data.earnings[0][0]
-      }
-      setDashData(obj)
+      .then((res) => {
+        const data = res.data
+        console.log(data)
+        const obj = {
+          books: data.books[0][0],
+          members: data.members[0][0],
+          issued: data.issued[0][0],
+          pendingReturn: data.not_returned[0][0],
+          income: data.earnings[0][0]
+        }
+        setDashData(obj)
 
-    }).catch((err) => {
-      console.log(err)
-    })
+      }).catch((err) => {
+        console.log(err)
+      })
   }
   useEffect(() => {
     fetchDashboardData();
@@ -40,13 +39,15 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-main-container">
+
+      <h2>Library Summary</h2>
       <div className="dashboard-card-container">
 
         <Card
           title={"Books"}
           count={dashData.books}
-          icon={<></>}
-          bgColor={"#000000"} />
+          icon={PeopleIcon}
+          bgColor={"#f39c11"} />
         <Card
           title={"Members"}
           count={dashData.members}
@@ -56,7 +57,7 @@ const Dashboard = () => {
           title={"Issued"}
           count={dashData.issued}
           icon={<></>}
-          bgColor={"#34f"} />
+          bgColor={"#4f5be0"} />
         <Card
           title={"Pending Return"}
           count={dashData.pendingReturn}
@@ -66,29 +67,49 @@ const Dashboard = () => {
           title={"Total Income"}
           count={dashData.income}
           icon={<></>}
-          bgColor={"#7a6"} />
-
-
-
-
+          bgColor={"#00a65a"} />
       </div>
+
+
+      <h2>Quick Actions</h2>
 
       <div className="dashbaord-actions-container">
         <Button
-        onClick={() => navigate('/issueBook')}
-        variant='contained'>
+          onClick={() => {
+            navigate('/books'); setActive('Books')
+          }}
+          variant='outlined'>
           Issue Book
         </Button>
         <Button
-        variant='contained'>
+          onClick={() => {
+            navigate('/issued'); setActive('Issued')
+          }}
+          variant='outlined'>
           Return Book
         </Button>
         <Button
-        variant='contained'>
+          onClick={async () => {
+            await setActive('Members');
+            navigate('/add-member'); 
+          }}
+          variant='outlined'>
           Add Member
         </Button>
 
+        <Button
+          onClick={async () => {
+            await setActive('Books');
+            navigate('/add-books'); 
+          }}
+          variant='outlined'>
+          Add Books
+        </Button>
+
+
       </div>
+
+
 
     </div>
 

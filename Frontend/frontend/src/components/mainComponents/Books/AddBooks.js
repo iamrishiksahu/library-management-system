@@ -35,7 +35,7 @@ const AddBooks = () => {
         setOpenDialog(!openDialoge)
     }
 
-    const handleAddBookClick = ({row}) => {
+    const handleAddBookClick = ({ row }) => {
         rowData = row
         console.log(rowData)
         setOpenDialog(true)
@@ -87,7 +87,8 @@ const AddBooks = () => {
             <div className="component-title-bar">
                 <IconButton onClick={(e) => { e.preventDefault(); navigate('/books') }} size="medium">
                     <ArrowBackIcon fontSize="inherit" />
-                </IconButton><h2 className="section-title">Add New Books To Library</h2>
+                </IconButton>
+                <h2 className="section-title">Add New Books To Library</h2>
 
             </div>
 
@@ -134,7 +135,7 @@ const AddBooks = () => {
                                 <TableCell >{row.publisher}</TableCell>
                                 <TableCell >{row["  num_pages"]}</TableCell>
                                 <TableCell align='center' >
-                                    <Button onClick={() => handleAddBookClick({row: row})}> +ADD </Button>
+                                    <Button onClick={() => handleAddBookClick({ row: row })}> +ADD </Button>
 
                                 </TableCell>
                             </TableRow>
@@ -145,9 +146,9 @@ const AddBooks = () => {
 
             <Dialog onClose={handleDialog} open={openDialoge}>
                 <DialogTitle>Add Book</DialogTitle>
-                <DialogContent sx={{gap : "1rem", display: 'flex'}}>
-                <TextField variant='outlined' size='small' placeholder='Quantity' type='number' inputRef={qtyRef}/>
-                <Button onClick={() => addBookAction({bookData: rowData, qty: qtyRef.current.value})} variant='contained' >Add</Button>
+                <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+                    <TextField variant='outlined' size='small' placeholder='Quantity' type='number' inputRef={qtyRef} />
+                    <Button onClick={() => addBookAction({ bookData: rowData, qty: qtyRef.current.value })} variant='contained' >Add</Button>
                 </DialogContent>
             </Dialog>
 

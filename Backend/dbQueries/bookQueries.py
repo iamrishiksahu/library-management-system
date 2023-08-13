@@ -62,7 +62,22 @@ def getAllBooks(cursor):
     return books
 
 def updateBook(conn, data):
-    return data;
+
+    try:
+        bookId = data["bookId"]
+        qty = data["qty"]
+
+        cursor = conn.cursor()
+        cursor.execute(f"""UPDATE books SET stock = {qty} WHERE bookId = {bookId}""")
+        conn.commit()
+
+        return 'SUCCESS'
+    except Exception as e:
+        print("An error occurred:", e)
+        conn.rollback()
+        return "FAILURE"
+
+
 
 def deleteBook(conn, id):
     try:

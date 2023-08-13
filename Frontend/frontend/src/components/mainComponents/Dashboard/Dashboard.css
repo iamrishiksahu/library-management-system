@@ -3,12 +3,14 @@
     display: flex;
     flex-wrap: wrap;
     max-width: 100%;
-    justify-content: center;
+    justify-content: left;
 
 }
 
 .dashbaord-actions-container{
+    margin-top: 2rem;
     display: flex;
     max-width: 100%;
-    justify-content: space-around;
+    gap: 2rem;
+    justify-content: left;
 }
