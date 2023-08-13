@@ -85,13 +85,13 @@ const IssueBook = () => {
         </Table>
       </TableContainer>
 
-      <Dialog onClose={handleDialog} open={showDialog}>
-        <DialogTitle>Issue Book</DialogTitle>
-        <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
-          <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
-          <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
-        </DialogContent>
-      </Dialog>
+      // <Dialog onClose={handleDialog} open={showDialog}>
+      //   <DialogTitle>Issue Book</DialogTitle>
+      //   <DialogContent sx={{ gap: "1rem", display: 'flex' }}>
+      //     <TextField variant='outlined' size='small' placeholder='Member ID' type='number' inputRef={memberIdRef} />
+      //     <Button onClick={() => issueBookAction({ bookData: rowData, memberId: memberIdRef.current.value })} variant='contained' >Issue</Button>
+      //   </DialogContent>
+      // </Dialog>
 
 
 
