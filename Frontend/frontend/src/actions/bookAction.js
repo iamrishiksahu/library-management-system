@@ -98,7 +98,7 @@ const issueBookAction = async ({ bookData, memberId }) => {
         if (res.data === 'SUCCESS') {
             alert("Book issued successfully!")
         } else if (res.data === 'OVERDUE') {
-            alert("OVERDUE")
+            alert("Oops! Member has due of more than Rs. 500/-")
         }
     }).catch((err) => {
         console.log(err);

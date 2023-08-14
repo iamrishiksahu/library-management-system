@@ -4,15 +4,15 @@ import TopAppBar from './components/TopAppBar/TopAppBar';
 import {SIDEBAR_MENU_ENDPOINTS as sideMenuItems} from './utils/AppConstants'
 import MenuItemContainer from './components/MenuItem/MenuItemContainer';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Dashboard from './components/mainComponents/Dashboard/Dashboard';
-import Books from './components/mainComponents/Books/Books';
-import Members from './components/mainComponents/Members/Members';
-import AddMember from './components/mainComponents/Members/AddMember';
-import Returned from './components/mainComponents/Returned/Returned'
-import IssueBook from './components/mainComponents/IssueBook/IssueBook';
-import NotReturned from './components/mainComponents/NotReturned/NotReturned';
-import Payments from './components/mainComponents/Payments/Payments';
-import AddBooks from './components/mainComponents/Books/AddBooks';
+import Dashboard from './components/MainComponents/Dashboard/Dashboard';
+import Books from './components/MainComponents/Books/Books';
+import Members from './components/MainComponents/Members/Members';
+import AddMember from './components/MainComponents/Members/AddMember';
+import Returned from './components/MainComponents/Returned/Returned'
+import IssueBook from './components/MainComponents/IssueBook/IssueBook';
+import NotReturned from './components/MainComponents/NotReturned/NotReturned';
+import Payments from './components/MainComponents/Payments/Payments';
+import AddBooks from './components/MainComponents/Books/AddBooks';
 
 const App = () => {
 
