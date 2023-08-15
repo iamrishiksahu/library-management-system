@@ -1,6 +1,5 @@
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import { API_BASE_URL } from "../utils/AppConstants"
-import { useNavigate } from "react-router-dom"
 
 const qtyUpdateAction = async ({ qty, bookId }) => {
 

@@ -13,8 +13,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import { API_BASE_URL, FRAPPE_BOOKS_API } from '../../../utils/AppConstants';
-import { issueBookAction, addBookAction } from '../../../actions/bookAction';
+import { API_BASE_URL } from '../../../utils/AppConstants';
+import {  addBookAction } from '../../../actions/bookAction';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

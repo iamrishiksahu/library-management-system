@@ -1,18 +1,12 @@
 import { Dialog, DialogTitle, Button, TextField, DialogContent } from '@mui/material';
 import React, { useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../../utils/AppConstants';
-import axios from 'axios';
 import { updateMemberAction } from '../../../actions/memberAction';
-
-
 
 const UpdateMemberDialog = ({ showDialog, setShowDialog, data, memberId, getAllMembers, setIsLoading }) => {
 
     const nameRef = useRef();
     const phoneRef = useRef();
     const addressRef = useRef();
-    const navigate = useNavigate()
 
     const handleUpdateClick = async () => {
         setIsLoading(true)
@@ -34,23 +28,6 @@ const UpdateMemberDialog = ({ showDialog, setShowDialog, data, memberId, getAllM
         setShowDialog(false)
     }
 
-    const updateMember = () => {
-        axios.patch(`${API_BASE_URL}/members`, {
-            name: nameRef.current.value,
-            phone: phoneRef.current.value,
-            address: addressRef.current.value
-        }).then((res) => {
-            if (res.data == 'SUCCESS') {
-                navigate('/members')
-            } else {
-                alert("Something went wrong!")
-            }
-        }).catch((err) => {
-            console.log(err);
-        }).finally(() => {
-            setShowDialog(false)
-        })
-    }
     return (
         <Dialog onClose={() => setShowDialog(false)} open={showDialog}>
 
