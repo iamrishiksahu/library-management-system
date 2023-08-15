@@ -2,7 +2,7 @@
 __Tech Stack:__ Flask Backend (Python) | React.Js Front-End (Javascript) 
 
 __Developed By:__ Rishik Sahu - BIT Mesra
-## Demonstrations
+## Feature Demonstrations
 
 - Members CRUD-
 
@@ -27,3 +27,21 @@ __Developed By:__ Rishik Sahu - BIT Mesra
 - Return a Book-
 
 ![Return a Book GIF](https://github.com/iamrishiksahu/readme-resources/blob/main/LibraryManagementSystemProject/return_book.gif?raw=true)
+
+- View Payments -
+
+![View Payments GIF](https://github.com/iamrishiksahu/readme-resources/blob/main/LibraryManagementSystemProject/payments.gif?raw=true)
+
+## Installation
+
+To install Library Management System on Local: Pull the repository on a local machine then perform the following CLI operations (NPM required):
+
+```bash
+  -> npm install 
+  -> npm start
+```
+    
+## Authors
+- [Rishik Sahu](https://www.github.com/iamrishiksahu)
+- [LinkedIn](https://www.linkedin.com/in/iamrishiksahu)
+

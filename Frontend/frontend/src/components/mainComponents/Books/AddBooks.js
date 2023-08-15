@@ -1,4 +1,4 @@
-import { Button, DialogContent, LinearProgress, TextField } from '@mui/material'
+import { Button, DialogContent, LinearProgress, TablePagination, TextField } from '@mui/material'
 import React, { useState, useEffect, useRef } from 'react'
 import "./AddBooks.css"
 import Table from '@mui/material/Table';
@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import { API_BASE_URL } from '../../../utils/AppConstants';
-import {  addBookAction } from '../../../actions/bookAction';
+import { addBookAction } from '../../../actions/bookAction';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -152,7 +152,7 @@ const AddBooks = () => {
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell sx={{width: '90px'}} >{row.bookID}</TableCell>
+                                    <TableCell sx={{ width: '90px' }} >{row.bookID}</TableCell>
                                     <TableCell >{row.title}</TableCell>
                                     <TableCell >{row.authors}</TableCell>
                                     <TableCell ><Rating name="read-only" value={parseFloat(row.average_rating)} readOnly precision={0.2} /></TableCell>
@@ -168,6 +168,8 @@ const AddBooks = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+
             }
 
             <Dialog onClose={handleDialog} open={openDialoge}>
