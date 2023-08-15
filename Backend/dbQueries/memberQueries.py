@@ -1,7 +1,3 @@
-#     # cursor.execute("""
-#     # INSERT INTO members (username, full_name, address, phone, created_at, total_books_borrowed)
-#     # VALUES (%s, %s, %s, %s, NOW(), 0);
-#     # """, ("rishik", "RKSAHU", "Ranchi", "8987400143"))
 
 def createMember(conn, mem):
     try:
@@ -76,3 +72,8 @@ def getAllMembers(cursor):
         }
         members.append(item)
     return members
+
+# MEMBERS TABLE
+# INSERT INTO members (username, full_name, address, phone, created_at, total_books_borrowed)
+# VALUES (%s, %s, %s, %s, NOW(), 0);
+# """, ("rishik", "RKSAHU", "Ranchi", "8987400143"))

@@ -1,11 +1,3 @@
-#     cursor.execute("""CREATE TABLE issued_books (
-#   issueId serial PRIMARY KEY,
-#   memberId int NOT NULL,
-#   bookId int NOT NULL,
-#   issued_at timestamp DEFAULT now(),
-#  returned_at timestamp,
-#     is_returned boolean NOT NULL
-# );""")
 def getAllIssues(cursor):
     # cursor.execute("""SELECT * FROM issued_books""")
     cursor.execute("""SELECT
@@ -69,3 +61,11 @@ def createIssue(conn, data):
         return "FAILURE"
 
     return data
+
+#    ISSUE_BOOKS TABLE SCHEMA
+#   issueId serial PRIMARY KEY,
+#   memberId int NOT NULL,
+#   bookId int NOT NULL,
+#   issued_at timestamp DEFAULT now(),
+#   returned_at timestamp,
+#   is_returned boolean NOT NULL

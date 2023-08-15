@@ -1,21 +1,4 @@
-#     # cursor.execute("""CREATE TABLE books (
-#     # bookId serial PRIMARY KEY,
-#     # title varchar(255) NOT NULL,
-#     # authors varchar(255) NOT NULL,
-#     # isbn varchar(255) NOT NULL,
-#     # average_rating varchar(255) NOT NULL,
-#     # language_code varchar(255) NOT NULL,
-#     # num_pages varchar(255) NOT NULL,
-#     # ratings_count varchar(255) NOT NULL,
-#     # text_reviews_count varchar(255) NOT NULL,
-#     # publication_date varchar(255) NOT NULL,
-#     # publisher varchar(255) NOT NULL,
-#     # created_at timestamp NOT NULL DEFAULT NOW(),
-#     # stock integer DEFAULT 1
-#     # );""")
 import requests
-
-
 
 def searchBookByAuthor(author):
     try:
@@ -119,5 +102,17 @@ def createBook(conn, data):
         conn.rollback()
         return "FAILURE"
 
-def getBook(cursor, id):
-    return id
+# BOOKS TABLE SCHEMA
+# bookId serial PRIMARY KEY,
+# title varchar(255) NOT NULL,
+# authors varchar(255) NOT NULL,
+# isbn varchar(255) NOT NULL,
+# average_rating varchar(255) NOT NULL,
+# language_code varchar(255) NOT NULL,
+# num_pages varchar(255) NOT NULL,
+# ratings_count varchar(255) NOT NULL,
+# text_reviews_count varchar(255) NOT NULL,
+# publication_date varchar(255) NOT NULL,
+# publisher varchar(255) NOT NULL,
+# created_at timestamp NOT NULL DEFAULT NOW(),
+# stock integer DEFAULT 1

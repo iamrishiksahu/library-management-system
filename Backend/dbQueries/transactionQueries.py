@@ -1,6 +1,3 @@
-    # cursor.execute("""CREATE TABLE transactions (transaction_id serial PRIMARY KEY, tnx_date timestamp DEFAULT NOW(), amount INTEGER NOT NULL, issueId VARCHAR(250) NOT NULL )""")
-
-
 def getAllTransactions(cursor):
     cursor.execute("""SELECT
   t.transaction_id,
@@ -45,3 +42,9 @@ def createTransaction(conn, data):
         print("An error occurred:", e)
         conn.rollback()
         return "FAILURE"
+    
+# TRANSACTIONS TABLE SCHEMA
+# transaction_id serial PRIMARY KEY, 
+# tnx_date timestamp DEFAULT NOW(), 
+# amount INTEGER NOT NULL, 
+# issueId VARCHAR(250) NOT NULL )

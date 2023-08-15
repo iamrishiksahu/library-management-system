@@ -13,8 +13,6 @@ from dbQueries.transactionQueries import getAllTransactions, createTransaction
 
 import requests
 
-# ['http://localhost:3000', 'https://frappe-lms-frontend.vercel.app/', 'https://lms-frontend-frappe.onrender.com/']
-
 CORS(app, origins='*')
 
 conn = psycopg2.connect("postgres://rishiksahu:GrmVGlse61NYTtj06FDXXIVmOfFAcF7H@dpg-cjaddoq683bs73bsq99g-a.singapore-postgres.render.com/maindb_vndy")
