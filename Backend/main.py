@@ -188,29 +188,6 @@ def manageMembers():
 
 # -------------- END MEMBER APIS -------------
 
-@app.route("/tests", methods=['GET'])
-def test():
-    return "test"
-
-    
-
-@app.route("/dontTouchIT")
-def dontTouch():
-
-    cursor.execute("""SELECT * FROM transactions""")
-    return cursor.fetchall()
-#     cursor.execute("""CREATE TABLE issued_books (
-#   issueId serial PRIMARY KEY,
-#   memberId int NOT NULL,
-#   bookId int NOT NULL,
-#   issued_at timestamp DEFAULT now(),
-#  returned_at timestamp,
-#     is_returned boolean NOT NULL
-# );""")
-
-    conn.commit()
-
-
 @app.route("/")
 def hello_world():
     return "Server is running!"
