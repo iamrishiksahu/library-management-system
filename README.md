@@ -1,6 +1,8 @@
 ## Library Management System
 __Tech Stack:__ Flask Backend (Python) | React.Js Front-End (Javascript) 
 
+__Deployed Links:__ [Front-End (Vercel)](https://frappe-lms-frontend.vercel.app/) | [Back-End (Google Cloud)](https://backend-frappe-lms.el.r.appspot.com)
+
 __Developed By:__ Rishik Sahu - BIT Mesra
 ## Feature Demonstrations
 
